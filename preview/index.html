@@ -1,0 +1,239 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PAOS-AI | WK·INTRAAI 학습 시연</title>
+<style>
+:root{--p:#8068D8;--line:#e8e4ef;--muted:#817b89}*{box-sizing:border-box}
+body{margin:0;background:white;font-family:system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif;color:#292531}
+main{max-width:930px;min-height:100dvh;margin:auto;padding:22px clamp(16px,5vw,48px);display:flex;flex-direction:column}
+header{display:flex;gap:12px;align-items:center;padding-bottom:19px;border-bottom:1px solid var(--line);font-size:14px;font-weight:700}
+header small{color:var(--muted);font-weight:400;font-size:11px;margin-left:auto}
+h1{font-size:clamp(28px,5vw,42px);letter-spacing:-.04em;margin:60px 0 10px}h1 em{color:var(--p);font-style:normal}
+.sub{font-size:13px;line-height:1.7;color:var(--muted);margin-bottom:25px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}button{cursor:pointer;font:inherit}
+.pill{border:1px solid var(--line);border-radius:99px;background:#fff;color:#615a69;font-size:12px;padding:7px 14px}
+.pill.active{color:var(--p);border-color:var(--p)}
+section{border-top:1px solid var(--line);margin-top:28px;padding-top:21px;flex:1}
+h2{font-size:18px;margin:0 0 10px}.meta{font-size:12px;color:var(--muted)}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px;margin-top:24px}
+label{display:flex;gap:9px;align-items:center;font-size:13px}label input{accent-color:var(--p)}
+.action{display:flex;justify-content:end;margin-top:22px}.go{background:var(--p);border:0;border-radius:99px;padding:10px 19px;color:white;font-size:12px}
+.result{border-top:1px solid var(--line);margin-top:25px;padding-top:16px;font-size:13px;line-height:1.7}
+.result strong{color:var(--p)}.result p{color:var(--muted)}
+.learning-area{border-top:1px solid var(--line);margin-top:20px;padding-top:17px}
+.learning-area h3{font-size:13px;font-weight:600;margin:0 0 8px}
+.learning-area li{font-size:12px;color:#615a69;line-height:1.7;margin-bottom:6px}
+.learning-info{font-size:11px;color:var(--muted);line-height:1.6}
+.learning-examples{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
+.learning-result{font-size:12px;color:#615a69;line-height:1.7;min-height:15px}
+footer{position:sticky;bottom:0;background:#fff;padding:15px 0}
+form{display:flex;align-items:center;gap:9px;padding:6px;border:1px solid #dfd8e8;border-radius:99px;max-width:100%;height:48px}
+form input{border:0;outline:0;flex:1;min-width:0;font-size:13px}
+.circle{border-radius:50%;border:1px solid var(--line);background:white;color:var(--p);width:33px;height:33px;font-size:18px}
+.circle.send{border-color:var(--p);background:var(--p);color:white}
+.note{font-size:10px;color:var(--muted);text-align:center;margin-top:8px}
+@media(max-width:600px){h1{margin-top:37px}.checks{grid-template-columns:1fr}main{padding-bottom:env(safe-area-inset-bottom)}}
+
+.scenarios{padding-bottom:120px;border-top:1px solid var(--line);padding-top:18px;margin-top:20px}
+.scenarios h3{font-size:14px;font-weight:650;margin:0 0 10px}.case-desc{font-size:12px;color:var(--muted);line-height:1.8}
+.case-choices{display:flex;flex-wrap:wrap;gap:7px;margin:13px 0}
+.case-pill{font-size:11px;border-radius:99px;border:1px solid var(--line);background:white;color:#615a69;padding:6px 12px}
+.case-pill.active{color:var(--p);border-color:var(--p)}
+.case-row{margin:9px 0;display:flex;gap:9px;align-items:center;font-size:12px}
+.case-row input{accent-color:var(--p)}
+.case-result{scroll-margin-bottom:115px;font-size:12px;line-height:1.75;margin-top:15px;border-top:1px solid var(--line);padding-top:12px}
+.case-result strong{color:var(--p)}.case-result p{margin:7px 0}
+.secondary-note{color:var(--muted);font-size:11px}
+
+.candidates{border-top:1px solid var(--line);padding:20px 0 90px}
+.candidates h3{font-size:14px;margin:0 0 8px}.candidate-hint{font-size:11px;color:var(--muted);line-height:1.7}
+.candidate-item{border:1px solid var(--line);border-radius:14px;margin:10px 0;padding:13px}
+.candidate-item h4{margin:0 0 7px;font-size:12px;font-weight:600}
+.candidate-item label{font-size:12px;margin:8px 0;line-height:1.5}
+.candidate-item button{font-size:11px;border:1px solid var(--line);border-radius:99px;padding:6px 12px;background:white;color:var(--p)}
+.candidate-output{font-size:12px;line-height:1.65;color:#574b65;margin-top:10px}
+</style></head><body><main>
+<header>PAOS<span style="color:#8068D8">-AI</span><small>WK·INTRAAI 학습 시연 · 가상자료 전용</small></header>
+<h1>뭐든 <em>해드립니다.</em></h1>
+<p class="sub">브라우저에서 직접 시험할 수 있는 정적 시연본입니다. 원문 업로드·네트워크 전송·모델 호출은 하지 않습니다. 필요한 근거부터 확인합니다.<br>이 화면은 실제 특허 판단·문서 작성이 아닌 자료 확인 절차 파일럿입니다.</p>
+<div id="pills" class="pills"></div>
+<section><h2 id="title">업무를 선택해 주세요</h2><div class="meta" id="meta">선행조사 · 발명상담 · 명세서 · OA · FTO · 특허맵 · 무효 · 포트폴리오</div><div id="checks" class="checks"></div><div id="learningArea" class="learning-area" hidden><h3>WK·INTRAAI 학습 패턴 · 검증 전</h3><ul id="learningPoints"></ul><p class="learning-info">폴더명이나 단일 READ_FULL은 사건 완결 근거가 아닙니다. 스킬 미승인 · 원문 미검증 · 자동 법률판단 없음.</p><div id="learningExampleButtons" class="learning-examples"></div><div id="learningResult" class="learning-result" aria-live="polite"></div></div><div class="action"><button id="review" class="go" hidden>근거 점검</button></div><div id="result" class="result" hidden></div></section>
+<div id="candidateArea" class="candidates" hidden>
+<h3>실제 스킬 ID 조회 · 승인 전 검토</h3>
+<p class="candidate-hint">v1.8의 130개 후보 중 12개 ID만 표시합니다. 원문·출처는 노출되지 않으며 체크해도 자동 실행·법률판단으로 승격되지 않습니다.</p>
+<div id="candidateItems"></div></div>
+<div class="scenarios" id="scenarios" hidden><h3>가상 사건으로 판단 절차 시험</h3><p class="case-desc">실제 고객 사례가 아닌 교육용 가상 상황입니다. 충분한 증거가 없을 때 무엇을 보류하는지 확인할 수 있습니다.</p>
+<div class="case-choices" id="scenarioOptions"></div>
+<div id="scenarioPanel" hidden><p class="case-desc" id="scenarioPremise"></p><div id="scenarioChecks"></div><div class="action"><button class="go" id="scenarioReview">가상 사건 판단 점검</button></div><div class="case-result" id="scenarioResult" aria-live="polite" hidden></div></div></div>
+<footer><form id="form"><button type="button" class="circle" id="help">+</button><input id="chat" aria-label="업무 요청" autocomplete="off" placeholder="예: 명세서 실시예부터 검토해 줘"><button type="submit" class="circle send" aria-label="실행">↑</button></form><div class="note">원본 문서 전송 없음 · 검색/LLM 미호출 · 법률 결론 없음</div></footer></main>
+<script>
+(function(){
+'use strict';
+const db={"capabilities":[{"id":"CAP01","label":"선행기술조사","family":"SIMPLE","checks":[{"key":"invention","label":"발명 구성·목적"},{"key":"scope","label":"검색 국가·시점·대상"},{"key":"references","label":"선행문헌 원문과 인용위치"}],"learning":{"review_points":["기술구성 분해와 국가별 검색식 설정을 검색 실행·수집 완료와 구분합니다.","노이즈 제외와 고관련 문헌 선정에 문헌별 근거를 남깁니다.","검색완전성·기술적 관련성은 수집 건수만으로 확정하지 않습니다."]}},{"id":"CAP02","label":"발명상담","family":"SIMPLE","checks":[{"key":"invention","label":"발명자 확인 기술 구성"},{"key":"prior_art","label":"선행기술·차별 구성"},{"key":"measurement","label":"수치 정의·환산 조건·실험 근거"}],"learning":{"review_points":["발명자 설명·실측·환산·가정을 서로 구분합니다.","핵심 구성과 차별 효과의 출처·단위·실험조건을 확인합니다.","상담 결과를 명세서의 확정 청구범위로 자동 승격하지 않습니다."]}},{"id":"CAP03","label":"명세서","family":"SIMPLE","checks":[{"key":"disclosure","label":"발명신고서·임시명세서"},{"key":"experiments","label":"실측/계산/가정 실시예 구분"},{"key":"support","label":"청구항과 원기재·효과의 연결"}],"learning":{"review_points":["실제 실험과 가정 실시예 및 계산값을 분리합니다.","동일 실시예 번호라도 버전 간 실험조건·기술적 역할을 재확인합니다.","원출원 기재에 없는 효과·수치·구성을 임의 보충하지 않습니다."]}},{"id":"CAP04","label":"OA 대응","family":"SIMPLE","checks":[{"key":"oa","label":"공식 OA와 절차 단계"},{"key":"claims","label":"현재 제출된 청구범위"},{"key":"references","label":"인용문헌의 근거 부분"},{"key":"basis","label":"원출원 기재 및 보정 전후 대비"}],"learning":{"review_points":["현재 유효한 청구범위와 이전 보정안·고객 제안을 구분합니다.","D1·D2 라벨보다 실제 인용문헌의 동일성과 근거 구성을 먼저 검증합니다.","보고서 권고와 실제 관청 제출·접수 여부를 별도로 확인합니다."]}},{"id":"CAP05","label":"FTO","family":"COMPLEX","checks":[{"key":"territory","label":"실시 국가와 행위"},{"key":"registered_claims","label":"국가별 현행 등록청구항"},{"key":"product","label":"실제 제품 사양·측정 대상"},{"key":"status","label":"권리 상태 및 확인 기준일"}],"learning":{"review_points":["실시 국가·제품 버전·등록청구항·권리상태의 기준일을 고정합니다.","중간·최종 판단이 달라졌다면 변경 자체와 원인 입증을 분리합니다.","저촉 위험·분쟁 가능성·사업상 위험을 동일한 결론으로 묶지 않습니다."]}},{"id":"CAP06","label":"포트폴리오","family":"COMPLEX","checks":[{"key":"owned","label":"보유 특허·출원 목록"},{"key":"business","label":"사업·기술 목표"},{"key":"external","label":"경쟁 권리·검색범위"},{"key":"legal","label":"국가별 권리상태·패밀리 근거"}],"learning":{"review_points":["보유특허·외부 특허·사업 목표를 독립된 축으로 유지합니다.","동일 사건·특허패밀리는 공식 근거 없이 병합하지 않습니다.","기술 분류 및 전략 결론을 원문·권리상태와 연결합니다."]}},{"id":"CAP07","label":"특허맵·동향","family":"COMPLEX","checks":[{"key":"scope","label":"검색 국가·기술·시점"},{"key":"records","label":"검색결과 원문·수집 이력"},{"key":"taxonomy","label":"근거가 있는 기술 분류"},{"key":"dedup","label":"공개문헌 중복제거 근거"}],"learning":{"review_points":["기술분류는 폴더 이름이 아닌 개별 문헌 내용과 근거로 정합니다.","검색식·수집 범위·중복 제거 이력을 먼저 검토합니다.","지도상 집계치의 존재가 문헌의 법적 패밀리·권리상태 확인을 의미하지 않습니다."]}},{"id":"CAP08","label":"무효·유효성","family":"COMPLEX","checks":[{"key":"claims","label":"대상 특허의 청구항과 권리상태"},{"key":"references","label":"인용문헌 원문·번호 대응"},{"key":"mapping","label":"청구항별 구성 대응 근거"},{"key":"procedure","label":"실제 심판·소송 절차 기록"}],"learning":{"review_points":["D1·D2 식별자와 실제 인용발명의 구성을 교차검증합니다.","신규성·진보성·기재불비 등 무효논거는 개별 청구항별로 구분합니다.","검토 초안·소송 서류·확정된 심판 결과를 구별합니다."]}}],"examples":[{"example_id":"OA_D1_D2_SWAP","workflow":"OA","input_scope":"BUILT_IN_SYNTHETIC_ONLY"},{"example_id":"FTO_DECISION_CHANGE","workflow":"FTO","input_scope":"BUILT_IN_SYNTHETIC_ONLY"},{"example_id":"CASE_READ_GAP","workflow":"OA","input_scope":"BUILT_IN_SYNTHETIC_ONLY"},{"example_id":"FOLDER_TYPE_MISMATCH","workflow":"VALIDITY","input_scope":"BUILT_IN_SYNTHETIC_ONLY"},{"example_id":"MAP_CLASSIFICATION_GAP","workflow":"PATENT_MAP","input_scope":"BUILT_IN_SYNTHETIC_ONLY"}],"results":{"OA_D1_D2_SWAP":{"example_id":"OA_D1_D2_SWAP","workflow":"OA","status":"HOLD_EXPERT_REVIEW","warnings":["CITATION_LABEL_REASSIGNED","SOURCE_IDENTITY_RECHECK_REQUIRED","LEGAL_CAUSALITY_NOT_ESTABLISHED"],"next_review_step":"라벨과 실제 원문 번호·구성을 재대조한 뒤 결론 변동의 원인을 검토하세요.","synthetic":true,"customer_documents_read":false,"source_identity_verified":false,"source_version_verified":false,"legal_causality_verified":false,"corpus_learning_completed":false,"operational_skill_approvals":0,"model_invocation":"NOT_EXECUTED","legal_conclusion":"NOT_ESTABLISHED"},"FTO_DECISION_CHANGE":{"example_id":"FTO_DECISION_CHANGE","workflow":"FTO","status":"HOLD_EXPERT_REVIEW","warnings":["DECISION_CHANGED","CHANGE_CAUSALITY_UNRESOLVED","PRODUCT_AND_CLAIMS_SNAPSHOTS_REQUIRED"],"next_review_step":"보고서 버전, 제품 구성, 국가별 현행 청구항, 기준일과 변경 근거를 대조하세요.","synthetic":true,"customer_documents_read":false,"source_identity_verified":false,"source_version_verified":false,"legal_causality_verified":false,"corpus_learning_completed":false,"operational_skill_approvals":0,"model_invocation":"NOT_EXECUTED","legal_conclusion":"NOT_ESTABLISHED"},"CASE_READ_GAP":{"example_id":"CASE_READ_GAP","workflow":"OA","status":"HOLD_EXPERT_REVIEW","warnings":["SINGLE_READ_FULL_NOT_CASE_COMPLETE","DOCUMENT_CHAIN_NOT_VERIFIED"],"next_review_step":"의뢰→초안→검토→최종본→후속 결과의 존재 여부와 판독상태를 확인하세요.","synthetic":true,"customer_documents_read":false,"source_identity_verified":false,"source_version_verified":false,"legal_causality_verified":false,"corpus_learning_completed":false,"operational_skill_approvals":0,"model_invocation":"NOT_EXECUTED","legal_conclusion":"NOT_ESTABLISHED"},"FOLDER_TYPE_MISMATCH":{"example_id":"FOLDER_TYPE_MISMATCH","workflow":"VALIDITY","status":"HOLD_EXPERT_REVIEW","warnings":["FOLDER_NAME_NOT_CASE_TYPE_EVIDENCE","CASE_DOCUMENT_IDENTITY_REVIEW_REQUIRED"],"next_review_step":"폴더명이 아니라 사건번호·원문·절차 기록으로 실제 업무유형을 확인하세요.","synthetic":true,"customer_documents_read":false,"source_identity_verified":false,"source_version_verified":false,"legal_causality_verified":false,"corpus_learning_completed":false,"operational_skill_approvals":0,"model_invocation":"NOT_EXECUTED","legal_conclusion":"NOT_ESTABLISHED"},"MAP_CLASSIFICATION_GAP":{"example_id":"MAP_CLASSIFICATION_GAP","workflow":"PATENT_MAP","status":"HOLD_EXPERT_REVIEW","warnings":["CLASSIFICATION_SOURCE_UNVERIFIED","SEARCH_COMPLETENESS_UNVERIFIED"],"next_review_step":"개별 문헌의 기술구성과 검색·중복제거 이력을 확인하세요.","synthetic":true,"customer_documents_read":false,"source_identity_verified":false,"source_version_verified":false,"legal_causality_verified":false,"corpus_learning_completed":false,"operational_skill_approvals":0,"model_invocation":"NOT_EXECUTED","legal_conclusion":"NOT_ESTABLISHED"}},"scenarios":[{"id":"SR-A","capability":"CAP01","title":"선행문헌은 찾았지만 원문 확인 전","premise":"검색 결과의 제목만 확인했고, 차이점은 검색 스니펫을 근거로 작성하려는 상황입니다.","requirements":[{"key":"e1","label":"원문 청구항과 실시예 위치"},{"key":"e2","label":"인용문헌별 실제 기술구성"},{"key":"e3","label":"검색 국가·시점·검색식 기록"}],"prohibited":"스니펫만으로 신규성·진보성 결론을 확정하지 않습니다.","next":"문헌 원문 및 청구항 대응 부분을 확보하고 X/Y/A 분류를 검토하세요."},{"id":"SR-B","capability":"CAP01","title":"전극과 활물질의 대상 차이","premise":"새로운 발명은 활물질이고 참고문헌의 주요 청구항은 전극에 관한 것입니다.","requirements":[{"key":"e1","label":"본원 청구항 대상"},{"key":"e2","label":"인용문헌 청구항 대상"},{"key":"e3","label":"각 구성요소의 원문 근거"}],"prohibited":"전극의 개시만으로 활물질 자체가 동일하다고 단정하지 않습니다.","next":"발명 대상의 층위를 구별하고 구성별 개시를 다시 매핑하세요."},{"id":"CONS-A","capability":"CAP02","title":"중량%와 몰농도의 직접 비교","premise":"문헌에 wt%만 있고 개발기술에는 M 단위가 표시되어 있습니다.","requirements":[{"key":"e1","label":"염의 정확한 화학식·분자량"},{"key":"e2","label":"중량% 분모와 용액 밀도"},{"key":"e3","label":"실제 환산식과 가정의 표시"}],"prohibited":"분모·밀도·화학식이 없으면 wt%를 M으로 확정 환산하지 않습니다.","next":"환산에 필요한 물성 자료와 화학식을 먼저 요청하세요."},{"id":"CONS-B","capability":"CAP02","title":"발명상담에서 추가한 수치 범위","premise":"발명자는 하나의 조성만 검증했으며 넓은 수치 범위를 제안하려 합니다.","requirements":[{"key":"e1","label":"발명자 제공 측정 범위"},{"key":"e2","label":"청구범위의 원기재"},{"key":"e3","label":"확장 범위에 관한 기술적 근거"}],"prohibited":"확장 수치범위를 실측으로 묘사하지 않습니다.","next":"실측 구간과 제안 구간을 별도 표로 분리하세요."},{"id":"SPEC-A","capability":"CAP03","title":"가정 비교예를 실측표에 넣은 초안","premise":"초안 앞부분의 비교예는 사고 실험으로 작성됐으나 뒷부분에는 측정된 결과로 서술돼 있습니다.","requirements":[{"key":"e1","label":"각 실시예의 실험 수행 여부"},{"key":"e2","label":"실험 원자료 및 측정일"},{"key":"e3","label":"평가표와 실시예 ID 대응"}],"prohibited":"가상 실시예의 수치를 실제 측정 결과로 승인하지 않습니다.","next":"실시예별 실측·계산·가정 출처표를 작성하세요."},{"id":"SPEC-B","capability":"CAP03","title":"범용 재료 확대의 뒷받침","premise":"단일 재료의 시험만 존재하지만 다른 재료에서도 동일한 효과가 확인됐다고 서술하려 합니다.","requirements":[{"key":"e1","label":"재료별 발명신고 근거"},{"key":"e2","label":"재료별 실시 가능성·효과 근거"},{"key":"e3","label":"출원 당시 원기재 확인"}],"prohibited":"미실험 재료의 효과를 검증된 사실처럼 표현하지 않습니다.","next":"측정 재료와 예측 적용 범위를 구분해 기재하세요."},{"id":"OA-A","capability":"CAP04","title":"고객에게 제안한 보정과 제출본의 혼동","premise":"내부 보고서에는 보정 제안이 있지만 접수증 또는 제출 보정서는 제시되지 않았습니다.","requirements":[{"key":"e1","label":"공식 OA의 절차·기한"},{"key":"e2","label":"출원인 최종 지시·제출본"},{"key":"e3","label":"접수 내역 및 제출일"}],"prohibited":"제안한 보정안을 실제 제출된 보정이라고 표시하지 않습니다.","next":"고객 제안/승인/실제 접수 상태를 단계별로 분리하세요."},{"id":"OA-B","capability":"CAP04","title":"최후통지 후 청구항 보정","premise":"최후거절이유통지 이후 신규 구성을 독립항에 추가하려는 상황입니다.","requirements":[{"key":"e1","label":"공식 통지의 종류·시점"},{"key":"e2","label":"보정 전후 청구항 전문"},{"key":"e3","label":"원출원 기재 및 당시 적용 규정"}],"prohibited":"절차적 보정 허용성을 확인하지 않고 해당 보정을 단정적으로 권하지 않습니다.","next":"현재 절차 단계와 구체적 보정 유형을 먼저 비교하세요."},{"id":"FTO-A","capability":"CAP05","title":"담체와 촉매의 BET 비표면적 혼동","premise":"촉매 완제품 BET와 촉매 담체 BET를 동일한 물성으로 대응하려 합니다.","requirements":[{"key":"e1","label":"측정 시료의 정체·제조 단계"},{"key":"e2","label":"청구항에서 규정한 측정 대상"},{"key":"e3","label":"원시 측정자료·측정오차"}],"prohibited":"담체 BET와 전체 촉매 BET를 동일한 구성요소 값으로 치환하지 않습니다.","next":"청구항의 물성과 실제 시험시료의 정의를 먼저 일치시키세요."},{"id":"FTO-B","capability":"CAP05","title":"US 공개출원과 EP 등록권리 혼동","premise":"기술적으로 유사한 US 공개출원과 EP 등록특허가 있다고 가정합니다.","requirements":[{"key":"e1","label":"국가별 현재 권리상태"},{"key":"e2","label":"국가별 등록청구항 전문"},{"key":"e3","label":"사업 실시 국가·행위"}],"prohibited":"공개출원을 등록특허와 동일한 현재 침해 위험으로 확정하지 않습니다.","next":"국가별 권리상태와 각 독립항을 별도로 대비하세요."},{"id":"PORT-A","capability":"CAP06","title":"기술적으로 관련된 문헌을 법적 패밀리로 병합","premise":"여러 나라 문헌에 같은 기술 키워드가 있으나 우선권 관계는 확보되지 않았습니다.","requirements":[{"key":"e1","label":"출원번호·우선권 연결"},{"key":"e2","label":"국가별 개별 청구범위"},{"key":"e3","label":"사업 목표 및 특허의 역할"}],"prohibited":"기술 유사성만으로 법적 패밀리를 통합하지 않습니다.","next":"우선권 연결과 실제 개별 권리를 분리한 포트폴리오를 만드세요."},{"id":"PORT-B","capability":"CAP06","title":"사업상 관계와 권리 위험의 구별","premise":"권리자와 사업 제휴 관계가 있어 특허 저촉 가능성을 낮게 표시하려 합니다.","requirements":[{"key":"e1","label":"국가별 유효 권리와 청구항"},{"key":"e2","label":"실제 제품·권리 요소 대응"},{"key":"e3","label":"계약·라이선스 권한 및 범위"}],"prohibited":"사업적 관계만으로 기술적 저촉 또는 법적 실시권을 인정하지 않습니다.","next":"저촉 판단과 계약·상업적 리스크를 별도 축으로 평가하세요."}]};
+function reply(data){return Promise.resolve({ok:true,status:200,json:async function(){return data;}});}
+function reject(){return Promise.reject(new Error("SYNTHETIC_PREVIEW_ONLY"));}
+function obj(body){try{return JSON.parse(body||"{}");}catch(e){return null;}}
+window.fetch=function(path,opts){
+  if(typeof path!=="string"||!path.startsWith("/api/paos/"))return reject();
+  const post=opts&&opts.method==="POST";
+  if(path==="/api/paos/skill-pilot"&&!post)return reply({capabilities:db.capabilities,model_evaluation:"NOT_EXECUTED",expert_approval:"EXPERT_REVIEW_REQUIRED"});
+  if(path==="/api/paos/skill-learning-examples"&&!post)return reply({examples:db.examples,synthetic_only:true,operational_skill_approvals:0});
+  if(path==="/api/paos/skill-learning-example"&&post){
+    const v=obj(opts.body);if(!v||Object.keys(v).length!==1||typeof v.example_id!=="string"||!Object.prototype.hasOwnProperty.call(db.results,v.example_id))return reject();
+    return reply(db.results[v.example_id]);
+  }
+  if(path==="/api/paos/skill-pilot"&&post){
+    const v=obj(opts.body);if(!v||!v.attested||typeof v.attested!=="object")return reject();
+    const c=db.capabilities.find(x=>x.id===v.capability);if(!c)return reject();
+    const keys=c.checks.map(x=>x.key);if(Object.keys(v.attested).some(k=>!keys.includes(k)||typeof v.attested[k]!=="boolean"))return reject();
+    const missing=c.checks.filter(x=>v.attested[x.key]!==true).map(x=>({key:x.key,label:x.label}));
+    return reply({capability:c.id,state:missing.length?"HOLD_MISSING_INPUT":"READY_FOR_HUMAN_EVIDENCE_CHECK",missing,
+      next_step:missing.length?"누락 자료의 존재·사건·버전을 확인하세요.":"원문 진위와 버전을 별도로 검증하세요.",
+      legal_conclusion:"NOT_ESTABLISHED",expert_approval:"EXPERT_REVIEW_REQUIRED",model_evaluation:"NOT_EXECUTED"});
+  }
+  if(path==="/api/paos/skill-candidates"&&!post)return reply({candidates:[],scope:"NOT_PUBLIC"});
+  if(path==="/api/paos/skill-scenarios"&&!post)return reply({cases:db.scenarios,evaluation:"SYNTHETIC_DETERMINISTIC_NOT_AI"});
+  if(path==="/api/paos/skill-scenarios"&&post){
+    const v=obj(opts.body);if(!v||!v.attested||typeof v.attested!=="object")return reject();
+    const c=db.scenarios.find(x=>x.id===v.case_id);if(!c)return reject();
+    const keys=c.requirements.map(x=>x.key);if(Object.keys(v.attested).some(k=>!keys.includes(k)||typeof v.attested[k]!=="boolean"))return reject();
+    const missing=c.requirements.filter(x=>v.attested[x.key]!==true);
+    return reply({case_id:c.id,status:missing.length?"HOLD_MISSING_EVIDENCE":"REVIEW_REQUIRED_NOT_VERIFIED",
+      prohibited_conclusion:c.prohibited,next_step:missing.length?"우선 확인: "+missing[0].label+". "+c.next:c.next,
+      source_evidence_verified:false,legal_conclusion:"NOT_ESTABLISHED",expert_approval:"EXPERT_REVIEW_REQUIRED"});
+  }
+  return reject();
+};
+window.PAOS_SYNTHETIC_PREVIEW=true;
+})();
+'use strict';
+var CAP=[],active=null,CANDIDATES=[];
+function $(id){return document.getElementById(id)}
+function pick(id){active=CAP.find(x=>x.id===id);if(!active)return;
+ $('title').textContent=active.label;$('meta').textContent=active.family+' · 자료가 있다는 표시와 검증 완료는 다릅니다.';
+ $('checks').replaceChildren();for(var c of active.checks){var l=document.createElement('label'),i=document.createElement('input');i.type='checkbox';i.dataset.key=c.key;l.append(i,document.createTextNode(c.label));$('checks').append(l)}
+ $('review').hidden=false;$('result').hidden=true;document.querySelectorAll('.pill').forEach(b=>b.classList.toggle('active',b.dataset.id===id));populateScenarios();renderCandidates();renderLearning()}
+function infer(t){
+ t=String(t||'').trim();if(!t)return null;
+ if(/포트폴리오/i.test(t)&&/건축|취업|작품집|디자인|이력서|학과|공모전|사진/i.test(t))return null;
+ if(/특허맵|특허\s*동향|patent\s*landscape|landscape/i.test(t))return 'CAP07';
+ if(/무효|무효심판|유효성|invalidity/i.test(t))return 'CAP08';
+ if(/시장\s*동향/i.test(t))return null;
+ if(/fto|침해|실시\s*자유/i.test(t))return'CAP05';
+ if(/특허\s*포트폴리오|지식재산\s*포트폴리오|IP\s*포트폴리오|권리\s*전략|보유\s*특허.*포트폴리오/i.test(t))return'CAP06';
+ if(/\bOA\b|거절|심사\s*대응|보정/i.test(t))return'CAP04';
+ if(/명세서|실시예|비교예/i.test(t))return'CAP03';
+ if(/발명\s*상담|발명자/i.test(t))return'CAP02';
+ if(/선행|특허\s*(검색|조사)/i.test(t))return'CAP01';
+ return null;
+}
+$('form').onsubmit=e=>{e.preventDefault();var id=infer($('chat').value);if(id)pick(id);$('chat').value='';if(!id)$('chat').placeholder='업무를 구체적으로 말씀해 주세요 (예: FTO)'};
+$('help').onclick=()=>alert('베타: 원문을 읽거나 법률 판단을 하지 않고 증거 확인 항목만 점검합니다.');
+$('review').onclick=async()=>{if(!active)return;var attested={};document.querySelectorAll('#checks input').forEach(x=>attested[x.dataset.key]=x.checked);
+try{var r=await fetch('/api/paos/skill-pilot',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({capability:active.id,attested})});if(!r.ok)throw new Error('요청 실패 '+r.status);var o=await r.json();
+var el=$('result');el.hidden=false;el.replaceChildren();var b=document.createElement('strong');b.textContent=o.state==='HOLD_MISSING_INPUT'?'자료 확인 필요 · HOLD':'자료 목록 충족 · 검증 보류';el.append(b);var p=document.createElement('p');p.textContent=o.next_step;el.append(p);
+if(o.missing.length){var ul=document.createElement('ul');for(var item of o.missing){var li=document.createElement('li');li.textContent=item.label;ul.append(li)}el.append(ul)}
+var c=document.createElement('p');c.textContent='원문·실측 진위 미검증 · 전문가 승인 전 · 법률 결론 없음';el.append(c);
+}catch(e){var el=$('result');el.hidden=false;el.textContent='서버 연결 문제: '+e.message}};
+fetch('/api/paos/skill-pilot').then(r=>{if(!r.ok)throw Error(r.status);return r.json()}).then(o=>{CAP=o.capabilities;for(const cap of CAP){const b=document.createElement('button');b.type='button';b.className='pill';b.dataset.id=cap.id;b.textContent=cap.label;b.onclick=()=>pick(b.dataset.id);$('pills').append(b)}}).catch(()=>{$('title').textContent='베타 서버 기능을 확인할 수 없습니다';$('meta').textContent='배포 환경의 PAOS_ENABLE_SKILL_PILOT 설정을 확인해 주세요.'});
+
+var LEARNING_EXAMPLES=[];
+var EXAMPLE_LABELS={
+ OA_D1_D2_SWAP:'가상 OA · D1/D2 교체',
+ FTO_DECISION_CHANGE:'가상 FTO · 판단 변경',
+ CASE_READ_GAP:'가상 사건 · 일부 판독',
+ FOLDER_TYPE_MISMATCH:'가상 폴더 · 업무유형 충돌',
+ MAP_CLASSIFICATION_GAP:'가상 특허맵 · 분류 누락'
+};
+var EXAMPLE_CAP={
+ CAP01:['MAP_CLASSIFICATION_GAP'],CAP02:['CASE_READ_GAP'],CAP03:['CASE_READ_GAP'],
+ CAP04:['OA_D1_D2_SWAP','CASE_READ_GAP'],CAP05:['FTO_DECISION_CHANGE'],
+ CAP06:['MAP_CLASSIFICATION_GAP'],CAP07:['MAP_CLASSIFICATION_GAP','FOLDER_TYPE_MISMATCH'],
+ CAP08:['OA_D1_D2_SWAP','FOLDER_TYPE_MISMATCH']
+};
+function renderLearning(){
+ var g=active&&active.learning,area=$('learningArea'),points=$('learningPoints'),btns=$('learningExampleButtons');
+ area.hidden=!g;points.replaceChildren();btns.replaceChildren();$('learningResult').textContent='';
+ if(!g)return;
+ (g.review_points||[]).forEach(t=>{var li=document.createElement('li');li.textContent=t;points.append(li)});
+ (EXAMPLE_CAP[active.id]||[]).filter(id=>LEARNING_EXAMPLES.some(x=>x.example_id===id)).forEach(id=>{
+  var b=document.createElement('button');b.type='button';b.className='case-pill';b.textContent=EXAMPLE_LABELS[id]||id;
+  b.onclick=async()=>{
+   var out=$('learningResult');out.textContent='가상 점검 중…';
+   try{
+    var resp=await fetch('/api/paos/skill-learning-example',{method:'POST',
+       headers:{'content-type':'application/json'},body:JSON.stringify({example_id:id})});
+    if(!resp.ok)throw Error('HTTP_'+resp.status);
+    var r=await resp.json();
+    out.textContent='HOLD · '+r.warnings.join(' / ')+' · '+r.next_review_step+' (가상 예시, 미승인)';
+   }catch(err){out.textContent='가상 검토 기능이 아직 연결되지 않았습니다.'}
+  };btns.append(b);
+ });
+}
+fetch('/api/paos/skill-learning-examples').then(r=>{if(!r.ok)throw Error(r.status);return r.json()})
+ .then(d=>{LEARNING_EXAMPLES=Array.isArray(d.examples)?d.examples:[];if(active)renderLearning()})
+ .catch(()=>{LEARNING_EXAMPLES=[];if(active)renderLearning()});
+
+var CANDIDATES_LOADED=false;
+function renderCandidates(){
+ var area=$('candidateArea'),items=$('candidateItems');items.replaceChildren();
+ var matching=CANDIDATES.filter(x=>active&&x.capability===active.id);
+ area.hidden=!matching.length;
+ matching.forEach(c=>{
+   var block=document.createElement('div');block.className='candidate-item';
+   var h=document.createElement('h4');h.textContent=c.label+' · '+c.rule_id;block.append(h);
+   var hint=document.createElement('p');hint.className='candidate-hint';hint.textContent='미승인 후보 · 독립 검증 전 · 호출 차단';block.append(hint);
+   var checks={};c.evidence.forEach(e=>{
+     var l=document.createElement('label'),box=document.createElement('input');box.type='checkbox';box.dataset.key=e.key;
+     checks[e.key]=box;l.append(box,document.createTextNode('자료 있음: '+e.label));block.append(l);
+   });
+   var btn=document.createElement('button');btn.type='button';btn.textContent='근거·승인 상태 점검';block.append(btn);
+   var out=document.createElement('div');out.className='candidate-output';out.setAttribute('aria-live','polite');block.append(out);
+   btn.onclick=async()=>{
+     var a={};Object.keys(checks).forEach(k=>a[k]=checks[k].checked);
+     out.textContent='확인 중…';
+     try{var res=await fetch('/api/paos/skill-candidates',{method:'POST',headers:{'content-type':'application/json'},
+       body:JSON.stringify({rule_id:c.rule_id,attested:a})});
+       if(!res.ok)throw Error('요청 '+res.status);
+       var v=await res.json();out.textContent=(v.status==='HOLD_INPUT_MISSING'?'누락 자료 확인 · HOLD':'원문 진위·전문가 승인 전 · HOLD')
+         +' · 모델 호출 없음 · 법률 결론 없음'+(v.missing.length?' / 확인 필요: '+v.missing.join(', '):'');
+     }catch(err){out.textContent='점검 기능을 사용할 수 없습니다.';}
+   };
+   items.append(block);
+ });
+}
+fetch('/api/paos/skill-candidates').then(r=>{if(!r.ok)throw Error(r.status);return r.json()}).then(d=>{
+ CANDIDATES=Array.isArray(d.candidates)?d.candidates:[];CANDIDATES_LOADED=true;if(active)renderCandidates();
+}).catch(()=>{CANDIDATES=[];CANDIDATES_LOADED=false});
+
+var SIMULATIONS=[],currentScenario=null;
+function populateScenarios(){
+ var area=$('scenarios');var options=$('scenarioOptions');options.replaceChildren();
+ var matching=SIMULATIONS.filter(x=>active&&x.capability===active.id);
+ area.hidden=!matching.length;currentScenario=null;$('scenarioPanel').hidden=true;
+ matching.forEach(x=>{var b=document.createElement('button');b.type='button';b.className='case-pill';b.textContent=x.title;b.dataset.id=x.id;b.onclick=()=>openScenario(x.id);options.append(b)})
+}
+function openScenario(id){
+ currentScenario=SIMULATIONS.find(x=>x.id===id);if(!currentScenario)return;
+ $('scenarioPanel').hidden=false;$('scenarioPremise').textContent=currentScenario.premise;
+ $('scenarioChecks').replaceChildren();$('scenarioResult').hidden=true;
+ currentScenario.requirements.forEach(x=>{
+ var row=document.createElement('label');row.className='case-row';
+ var c=document.createElement('input');c.type='checkbox';c.dataset.key=x.key;
+ row.append(c,document.createTextNode('자료 있음: '+x.label));$('scenarioChecks').append(row);
+ });
+ document.querySelectorAll('.case-pill').forEach(b=>b.classList.toggle('active',b.dataset.id===id));
+}
+$('scenarioReview').onclick=async()=>{
+ if(!currentScenario)return;
+ var attested={};document.querySelectorAll('#scenarioChecks input').forEach(x=>{attested[x.dataset.key]=x.checked});
+ var el=$('scenarioResult');el.hidden=false;el.textContent='점검 중…';
+ try{
+ var resp=await fetch('/api/paos/skill-scenarios',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({case_id:currentScenario.id,attested})});
+ if(!resp.ok)throw Error('응답 '+resp.status);
+ var result=await resp.json();el.replaceChildren();
+ var h=document.createElement('strong');h.textContent=result.status==='HOLD_MISSING_EVIDENCE'?'증거 부족 · HOLD':'자가 표시 완료 · 외부 검증 필요';el.append(h);
+ var q=document.createElement('p');q.textContent='보류해야 할 판단: '+result.prohibited_conclusion;el.append(q);
+ var next=document.createElement('p');next.textContent='다음 행동: '+result.next_step;el.append(next);
+ var small=document.createElement('p');small.className='secondary-note';small.textContent='원문 진위 미확인 · 독립 AI 평가 0회 · 실제 법률 결론 아님';el.append(small);
+ }catch(err){el.textContent='가상 사건 실행 오류: '+err.message}
+};
+fetch('/api/paos/skill-scenarios').then(r=>{if(!r.ok)throw Error(r.status);return r.json()}).then(d=>{SIMULATIONS=d.cases||[];if(active)populateScenarios()}).catch(()=>{SIMULATIONS=[]});
+</script></body></html>
